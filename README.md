@@ -82,7 +82,49 @@ in callback, status: <Response [200]>
 
 从运行结果可以看出，运行时间大约3秒。
 
+## `multi_taks_sync`
 
+以同步方式发送10个请求。同时，在这里加入了协程，希望可以利用协程来更好地利用CPU。但是，不幸的是，使用同步请求方式，当请求发送后，在等待服务端响应时，由于等待IO，客户端进程会被挂起。
+
+运行结果
+
+```shell
+client xixi2$ python3 multi_task_sync.py --port=9999
+2020-06-30 08:56:48.188272
+my pid: 4940
+Task Result: <Response [200]>
+Task Result: <Response [200]>
+Task Result: <Response [200]>
+Task Result: <Response [200]>
+Task Result: <Response [200]>
+Task Result: <Response [200]>
+Task Result: <Response [200]>
+Task Result: <Response [200]>
+Task Result: <Response [200]>
+Task Result: <Response [200]>
+2020-06-30 08:57:18.285911
+```
+
+当客户端发送请求后，服务端响应前查看进程状态：
+
+```shell
+client xixi2$ ps aux | grep 4940 | grep -v "grep"
+xixi2 4940 0.0 0.3 4277384 24296 s001 S+ 8:56 0:00.22 /Python multi_task_sync.py --port=9999
+```
+
+可以看出，进程被阻塞，等待IO完成。
+
+因此，在此处加入协程和事件循环无异于画蛇添足，毫无用处。
+
+
+
+## `mult_task_async`
+
+要想让协程真正发挥作用，必须让当服务端未返回时，客户端继续发送下一个请求，当收到服务端的响应时，再去处理服务端的响应数据。这就需要异步IO。
+
+
+
+## ``
 
 
 
