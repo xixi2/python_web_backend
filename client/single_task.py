@@ -1,5 +1,6 @@
 import asyncio
 import requests
+import datetime
 from tornado.options import define, parse_command_line, options
 
 define("ip", type=str, default="127.0.0.1")
@@ -30,13 +31,15 @@ def get_req_url():
 
 
 if __name__ == "__main__":
+    print(datetime.datetime.now())
     coroutine = request(get_req_url())
     task = asyncio.ensure_future(coroutine)
 
     # 当 coroutine 对象执行完毕之后，就去执行声明的 callback() 方法
     task.add_done_callback(callback)
-    print("Task:", task)
+    # print("Task:", task)
 
     loop = asyncio.get_event_loop()
     loop.run_until_complete(task)
-    print("Task:", task)
+    # print("Task:", task)
+    print(datetime.datetime.now())
