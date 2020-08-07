@@ -20,7 +20,7 @@ def request(params):
     kv = "name=%s" % (name,)
     url = get_req_url(options, kv)
     status = requests.get(url)
-    print("pid: %s, request url: %s, status: %s" % (os.getpid(), url, status))
+    print("pid: %s, request url: %s, status: %s" % (os.getpid(), url, status.reason))
     return status
 
 
