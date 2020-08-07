@@ -28,12 +28,7 @@ if __name__ == "__main__":
     print(datetime.datetime.now())
 
     tasks = [asyncio.ensure_future(request(get_req_url(options))) for _ in range(options.task_num)]
-    # print("Tasks:", tasks)
-
     loop = asyncio.get_event_loop()
     loop.run_until_complete(asyncio.wait(tasks))
-
-    # for task in tasks:
-    #     print("Task Result:", task.result())
 
     print(datetime.datetime.now())
