@@ -37,7 +37,7 @@ def loop_request_wrapper(params):
     end = datetime.datetime.now()
     print("visit %s" % (urls))
     print("my pid: %s, parent pid: %s, start at %s, end at %s" % (os.getpid(), os.getppid(), start, end))
-    print('-' * 100)
+    print('-' * 80)
 
 
 if __name__ == "__main__":
@@ -49,4 +49,6 @@ if __name__ == "__main__":
     names = get_names(options.process_num)
     params = [(i, names[i]) for i in range(options.process_num)]
     pool.map(loop_request_wrapper, params)
+    pool.close()
+    pool.join()
     print(datetime.datetime.now())
